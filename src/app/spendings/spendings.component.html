@@ -1,0 +1,13 @@
+<h2>Your spendings:</h2>
+<ul>
+  <li *ngFor="let spending of spendings" (click)="onClick(spending)">
+    <b>₽{{ spending.amount }},</b>
+    {{ spending.date.toDateString() }}
+    <div *ngIf="spending.id === selectedId">
+      <p>Amount: {{ spending.amount }}</p>
+      <p>Date: {{ spending.date.toDateString() }}</p>
+      <p>Category: {{ spending.category }}</p>
+      <p>Comment: {{ spending.comment || "Nothing" }}</p>
+    </div>
+  </li>
+</ul>
