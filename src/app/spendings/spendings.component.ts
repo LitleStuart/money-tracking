@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { SPENDINGS } from '../mock-spendings';
+import { Component, Input } from '@angular/core';
 import { Spending } from '../spending';
 
 @Component({
@@ -8,10 +7,6 @@ import { Spending } from '../spending';
   styleUrls: ['./spendings.component.scss'],
 })
 export class SpendingsComponent {
-  spendings = SPENDINGS;
+  @Input() spendings?: Spending[];
   selectedId?: number;
-  onClick = (spending: Spending) => {
-    if (spending.id === this.selectedId) this.selectedId = undefined;
-    else this.selectedId = spending.id;
-  };
 }
