@@ -8,5 +8,5 @@ import { Spending } from '../spending';
 })
 export class SpendingsComponent {
   @Input() spendings?: Spending[];
-  selectedId?: number;
+  selectedIndex?: number;
 }

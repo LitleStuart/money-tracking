@@ -1,7 +1,20 @@
 <h2>Your spendings:</h2>
 <ul>
-  <li *ngFor="let spending of spendings">
-    <b>₽{{ spending.amount }},</b>
-    {{ spending.date }}
+  <li
+    *ngFor="let spending of spendings; index as i"
+    (click)="selectedIndex = selectedIndex === i ? undefined : i"
+  >
+    <div *ngIf="i !== selectedIndex; else fullCard">
+      <b>₽{{ spending.amount }},</b>
+      {{ spending.date }}
+    </div>
+    <ng-template #fullCard>
+      <div>
+        <b>Amount</b>: ₽{{ spending.amount }} <br />
+        <b>Category</b>: {{ spending.category }} <br />
+        <b>Date</b>: {{ spending.date }} <br />
+        <b>Comment</b>: {{ spending.comment || "No comment" }}
+      </div>
+    </ng-template>
   </li>
 </ul>
