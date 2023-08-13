@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { Spending } from '../spending';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-spendings',
@@ -7,6 +8,7 @@ import { Spending } from '../spending';
   styleUrls: ['./spendings.component.scss'],
 })
 export class SpendingsComponent {
-  @Input() spendings?: Spending[];
-  selectedIndex?: number;
+  spendings = this.userService.spendings$;
+
+  constructor(private userService: UserService) {}
 }

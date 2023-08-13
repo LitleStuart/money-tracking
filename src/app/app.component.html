@@ -1,2 +1,5 @@
-<app-header [name]="user?.name" [balance]="user?.balance"></app-header>
-<app-spendings [spendings]="user?.spendings"></app-spendings>
+<ng-container *ngIf="wasLoaded">
+  <app-header></app-header>
+  <app-add-spending-form></app-add-spending-form>
+  <app-spendings></app-spendings>
+</ng-container>

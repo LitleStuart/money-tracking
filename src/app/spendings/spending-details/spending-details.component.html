@@ -1,0 +1,14 @@
+<div (click)="selected = !selected">
+  <div *ngIf="!selected; else fullCard">
+    <b>₽{{ spending.amount }},</b>
+    {{ spending.date }}
+  </div>
+  <ng-template #fullCard>
+    <div>
+      <b>Amount</b>: ₽{{ spending.amount }} <br />
+      <b>Category</b>: {{ spending.category }} <br />
+      <b>Date</b>: {{ spending.date }} <br />
+      <b>Comment</b>: {{ spending.comment || "No comment" }}
+    </div>
+  </ng-template>
+</div>

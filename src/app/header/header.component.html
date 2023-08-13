@@ -1,2 +1,2 @@
-<h1>{{ name }}</h1>
-<h3>Your balance: ₽{{ balance }}</h3>
+<h1>{{ (user | async)?.name }}</h1>
+<h3>Your balance: ₽{{ (user | async)?.balance }}</h3>
