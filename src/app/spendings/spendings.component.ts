@@ -11,4 +11,8 @@ export class SpendingsComponent {
   spendings = this.userService.spendings$;
 
   constructor(private userService: UserService) {}
+
+  trackSpendings(index: number, spending: Spending) {
+    return spending.id;
+  }
 }

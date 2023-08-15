@@ -1,6 +1,6 @@
 <h2>Your spendings:</h2>
 <ul>
-  <li *ngFor="let spending of spendings | async">
+  <li *ngFor="let spending of spendings | async; trackBy: trackSpendings">
     <app-spending-details [spending]="spending"></app-spending-details>
   </li>
 </ul>
