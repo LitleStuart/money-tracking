@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, merge, tap } from 'rxjs';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
@@ -18,11 +18,11 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   resolve(): Observable<unknown> {
-    return this.getUser(1).pipe(
-      tap((user) => {
-        this.user$$.next(user);
-        this.spendings$$.next(user.spendings);
-      })
+    return merge(
+      this.getUser(1).pipe(tap((user) => this.user$$.next(user))),
+      this.getSpendings(1).pipe(
+        tap((spendings) => this.spendings$$.next(spendings))
+      )
     );
   }
 
@@ -39,9 +39,16 @@ export class UserService {
       );
   }
 
-  private getUser(id: number): Observable<User> {
-    return this.http.get<User>(
-      environment.serverUrl + `/users/${id}?_embed=spendings`
+  private getUser(id: number): Observable<Omit<User, 'spendings'>> {
+    return this.http.get<Omit<User, 'spendings'>>(
+      environment.serverUrl + `/users/${id}`
+    );
+  }
+
+  private getSpendings(userId: number): Observable<Spending[]> {
+    return this.http.get<Spending[]>(
+      environment.serverUrl +
+        `/spendings?userId=${userId}&_sort=date&_order=desc`
     );
   }
 }

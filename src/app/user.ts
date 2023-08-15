@@ -5,6 +5,5 @@ export interface User {
   name: string;
   surname: string;
   balance: number;
-  spendings: Spending[];
   categories: string[];
 }
