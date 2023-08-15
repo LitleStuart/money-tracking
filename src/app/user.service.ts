@@ -27,22 +27,44 @@ export class UserService {
   }
 
   addSpending(spending: Omit<Spending, 'id'>) {
+    if (!this.user$$.getValue().categories.includes(spending.category)) {
+      this.addCategory(spending.category);
+    }
     return this.http
       .post<Spending>(environment.serverUrl + '/spendings', {
         ...spending,
-        userId: 1,
+        userId: this.user$$.getValue().id,
       })
-      .pipe(
-        tap((spending) =>
-          this.spendings$$.next([...this.spendings$$.getValue(), spending])
-        )
-      );
+      .subscribe({
+        next: () => {
+          this.resolve().subscribe();
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 
-  private getUser(id: number): Observable<Omit<User, 'spendings'>> {
-    return this.http.get<Omit<User, 'spendings'>>(
-      environment.serverUrl + `/users/${id}`
-    );
+  addCategory(category: string) {
+    return this.http
+      .patch<User>(
+        environment.serverUrl + `/users/${this.user$$.getValue().id}`,
+        {
+          categories: [...this.user$$.getValue().categories, category],
+        }
+      )
+      .subscribe({
+        next: () => {
+          this.resolve().subscribe();
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+  }
+
+  private getUser(id: number): Observable<User> {
+    return this.http.get<User>(environment.serverUrl + `/users/${id}`);
   }
 
   private getSpendings(userId: number): Observable<Spending[]> {

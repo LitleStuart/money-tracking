@@ -18,8 +18,6 @@ const EMPTY_SPENDING: Spending = {
   styleUrls: ['./add-spending-form.component.scss'],
 })
 export class AddSpendingFormComponent {
-  @Input() userId?: number;
-
   @Output() addSpendingEvent = new EventEmitter<Spending>();
 
   spendingForm = this.fb.group({
@@ -32,8 +30,6 @@ export class AddSpendingFormComponent {
   constructor(private fb: FormBuilder, private userService: UserService) {}
 
   addSpending() {
-    this.userService
-      .addSpending(this.spendingForm.value as Spending)
-      .subscribe();
+    this.userService.addSpending(this.spendingForm.value as Spending);
   }
 }
